@@ -1,7 +1,11 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import { auth } from "../../firebase.init";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   const [successMsg, setSuccessMsg] = useState(false);
@@ -40,6 +44,10 @@ const SignUp = () => {
       .then((result) => {
         console.log(result.user);
         setSuccessMsg(true);
+        // send verification email
+        sendEmailVerification(auth.currentUser).then(() => {
+          console.log("Verification done!");
+        });
       })
       .catch((error) => {
         setError(error.message);
@@ -96,11 +104,6 @@ const SignUp = () => {
           >
             {showPassEye ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
           </button>
-          <label className="label">
-            <a href="#" className="label-text-alt link link-hover">
-              Forgot password?
-            </a>
-          </label>
         </div>
         <div className="form-control">
           <label className="label justify-start gap-3 cursor-pointer">
@@ -120,6 +123,12 @@ const SignUp = () => {
       </form>
       {error && <p className="text-red-700">{error}</p>}
       {successMsg && <p className="text-green-700">Successfully Signed Up !</p>}
+      <p>
+        Already have an account?{" "}
+        <Link className="text-blue-500" to="/login">
+          Login here!
+        </Link>
+      </p>
     </div>
   );
 };
