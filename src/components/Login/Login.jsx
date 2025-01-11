@@ -1,11 +1,17 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "../../firebase.init";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Login = () => {
   const [successMsg, setSuccessMsg] = useState(false);
   const [loginErr, setLoginErr] = useState("");
+
+  const emailRef = useRef();
+
   const handleLogin = (e) => {
     const email = e.target.email.value;
     const password = e.target.password.value;
@@ -30,6 +36,23 @@ const Login = () => {
         setLoginErr(error.message);
       });
   };
+
+  const handleForgetPassword = () => {
+    console.log("Get me email", emailRef);
+    const email = emailRef.current.value;
+    if (!email) {
+      console.log("Please provide a valid email");
+    } else {
+      sendPasswordResetEmail(auth, email)
+        .then(() => {
+          alert("Reset password email sent to your registered email.");
+        })
+        .catch((error) => {
+          console.log("ERROR!", error);
+        });
+    }
+  };
+
   return (
     <div className="card bg-base-100 w-full max-w-sm mx-auto shrink-0 shadow-2xl">
       <h1 className="text-4xl text-center font-bold">Login!</h1>
@@ -40,6 +63,7 @@ const Login = () => {
           </label>
           <input
             type="email"
+            ref={emailRef}
             name="email"
             placeholder="email"
             className="input input-bordered"
@@ -69,7 +93,7 @@ const Login = () => {
             className="input input-bordered"
             required
           />
-          <label className="label">
+          <label onClick={handleForgetPassword} className="label">
             <a href="#" className="label-text-alt link link-hover">
               Forgot password?
             </a>
