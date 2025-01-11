@@ -16,8 +16,9 @@ const SignUp = () => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    const username = e.target.username.value;
+    const name = e.target.name.value;
     const terms = e.target.terms.checked;
+    const photo = e.target.photo.value;
 
     setError("");
     setSuccessMsg(false);
@@ -40,7 +41,7 @@ const SignUp = () => {
       return;
     }
 
-    createUserWithEmailAndPassword(auth, email, password, username)
+    createUserWithEmailAndPassword(auth, email, password, name, photo)
       .then((result) => {
         console.log(result.user);
         setSuccessMsg(true);
@@ -74,19 +75,33 @@ const SignUp = () => {
             required
           />
         </div>
-        {/* username */}
+        {/* name */}
         <div className="form-control">
           <label className="label">
-            <span className="label-text">Username</span>
+            <span className="label-text">Name</span>
           </label>
           <input
             type="text"
-            name="username"
-            placeholder="Username"
+            name="name"
+            placeholder="name"
             className="input input-bordered"
             required
           />
         </div>
+        {/* photo url */}
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Photo URL</span>
+          </label>
+          <input
+            type="text"
+            name="photo"
+            placeholder="Photo URL"
+            className="input input-bordered"
+            required
+          />
+        </div>
+        {/* password */}
         <div className="form-control relative">
           <label className="label">
             <span className="label-text">Password</span>

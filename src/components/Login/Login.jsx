@@ -15,13 +15,13 @@ const Login = () => {
   const handleLogin = (e) => {
     const email = e.target.email.value;
     const password = e.target.password.value;
-    const username = e.target.username.value;
+    const name = e.target.name.value;
 
     setSuccessMsg(false);
     setLoginErr("");
 
     e.preventDefault();
-    signInWithEmailAndPassword(auth, email, password, username)
+    signInWithEmailAndPassword(auth, email, password, name)
       .then((result) => {
         console.log(result.user);
 
@@ -72,12 +72,12 @@ const Login = () => {
         </div>
         <div className="form-control">
           <label className="label">
-            <span className="label-text">Username</span>
+            <span className="label-text">Name</span>
           </label>
           <input
             type="text"
-            name="username"
-            placeholder="username"
+            name="name"
+            placeholder="Name"
             className="input input-bordered"
             required
           />
